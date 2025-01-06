@@ -14,4 +14,20 @@ class TaskData
         public DateTimeImmutable $updatedAt,
     ) {
     }
+
+    public static function create(
+        string $title,
+        ?string $description,
+        TaskStatus $taskStatus,
+        DateTimeImmutable $createdAt,
+        DateTimeImmutable $updatedAt,
+    ): TaskData {
+        return new self(
+            $title,
+            $description,
+            $taskStatus,
+            $createdAt,
+            $updatedAt,
+        );
+    }
 }

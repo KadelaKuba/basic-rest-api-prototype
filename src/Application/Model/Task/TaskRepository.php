@@ -37,7 +37,7 @@ class TaskRepository
             ->getArrayResult();
     }
 
-    public function getById(int $id): Task
+    public function findById(int $id): ?Task
     {
         return $this->createAllQueryBuilder()
             ->andWhere('task.id = :id')

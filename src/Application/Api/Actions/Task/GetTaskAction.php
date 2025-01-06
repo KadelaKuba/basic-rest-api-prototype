@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Application\Actions\Api;
+namespace App\Application\Api\Actions\Task;
 
-use App\Application\Actions\AbstractAction;
+use App\Application\Api\Actions\AbstractAction;
 use App\Application\Model\Task\TaskFacade;
-use App\Components\Responder\JsonResponder;
+use App\Components\Http\HttpOptions;
+use App\Components\Responder\ApiResponder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Psr7\Factory\ResponseFactory;
 
 class GetTaskAction extends AbstractAction
 {
     public const ACTION_PATH = '/tasks';
 
     public function __construct(
-        private JsonResponder $jsonResponder,
-        private TaskFacade $taskFacade
+        private ApiResponder $apiResponder,
+        private TaskFacade $taskFacade,
+        private ResponseFactory $responseFactory,
     ) {
     }
 
@@ -25,8 +28,8 @@ class GetTaskAction extends AbstractAction
     {
         $tasks = $this->taskFacade->getAllTasks();
 
-        return $this->jsonResponder->respond(
-            $response,
+        return $this->apiResponder->respond(
+            $this->responseFactory->createResponse(HttpOptions::STATUS_OK),
             $tasks,
         );
     }
