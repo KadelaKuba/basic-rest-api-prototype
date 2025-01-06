@@ -15,7 +15,9 @@
         "doctrine/orm": "^3.3",
         "doctrine/migrations": "^3.8",
         "symfony/cache": "^7.2",
-        "symfony/console": "^7.2"
+        "symfony/console": "^7.2",
+        "symfony/validator": "^7.2",
+        "netresearch/jsonmapper": "^5.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

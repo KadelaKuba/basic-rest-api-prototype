@@ -2,6 +2,7 @@
 
 namespace App\Application\Model\Task;
 
+use App\Application\Model\Task\Exception\TaskNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TaskFacade
@@ -32,7 +33,13 @@ class TaskFacade
 
     public function getById(int $id): Task
     {
-        return $this->taskRepository->getById($id);
+        $task = $this->taskRepository->findById($id);
+
+        if ($task === null) {
+            throw TaskNotFoundException::create();
+        }
+
+        return $task;
     }
 
     public function edit(int $taskId, TaskData $taskData): Task

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Application\Api\JsonMappedBodyStrategy;
 use App\ContainerDefinitions;
 use App\Environment;
 use DI\ContainerBuilder;
@@ -18,6 +19,8 @@ use Slim\Interfaces\CallableResolverInterface;
 use Slim\Interfaces\RouteCollectorInterface;
 use Slim\Logger;
 use Slim\Routing\RouteCollector;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 return function (ContainerBuilder $builder, string $environment) {
     // file and folder paths
@@ -55,7 +58,8 @@ return function (ContainerBuilder $builder, string $environment) {
                 return new RouteCollector(
                     $container->get(ResponseFactoryInterface::class),
                     $container->get(CallableResolverInterface::class),
-                    $container
+                    $container,
+                    $container->get(JsonMappedBodyStrategy::class),
                 );
             },
             LoggerInterface::class => fn (ContainerInterface $container) => new Logger(),
@@ -79,6 +83,11 @@ return function (ContainerBuilder $builder, string $environment) {
                 $entityManager = new EntityManager($databaseParameters, $config);
 
                 return $entityManager;
+            },
+            ValidatorInterface::class => function (ContainerInterface $container): ValidatorInterface {
+                return Validation::createValidatorBuilder()
+                    ->enableAttributeMapping()
+                    ->getValidator();
             },
         ]
     );
