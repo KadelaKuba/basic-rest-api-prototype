@@ -2,8 +2,9 @@
 
 namespace App\Middlewares\Api;
 
+use App\Application\Response\ErrorResponse;
 use App\Components\Http\HttpOptions;
-use App\Components\Responder\ApiResponder;
+use App\Components\Responder\JsonResponder;
 use Exception;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +16,7 @@ use Slim\Exception\HttpException;
 class ApiErrorMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private ApiResponder $apiResponder,
+        private JsonResponder $jsonResponder,
         private ResponseFactoryInterface $responseFactory,
     ) {
     }
@@ -30,12 +31,9 @@ class ApiErrorMiddleware implements MiddlewareInterface
                 $code = $exception->getCode();
             }
 
-            $errorResponse = $this->responseFactory->createResponse($code);
-
-            return $this->apiResponder->respond(
-                $errorResponse,
-                [],
-                $exception->getMessage(),
+            return $this->jsonResponder->respond(
+                $this->responseFactory->createResponse($code),
+                new ErrorResponse($exception->getMessage()),
             );
         }
     }
