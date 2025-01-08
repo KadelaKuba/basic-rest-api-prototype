@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use App\Bootstrap;
+use Symfony\Component\Dotenv\Dotenv;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+umask(0000);
+
+(new Dotenv())->bootEnv(__DIR__ . '/../.env');
+
+$bootstrap = Bootstrap::createWithServerAppEnv();
+$container = $bootstrap->buildContainer();
+$consoleApp = $bootstrap->createConsole($container);
+
+$consoleApp->run();

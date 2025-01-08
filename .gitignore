@@ -1,0 +1,9 @@
+# Locally used .env variables
+/.env.*local
+
+/vendor
+/var/docker
+/logs/*
+
+!.git-keep
+/.idea
