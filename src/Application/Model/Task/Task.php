@@ -12,7 +12,7 @@ use JsonSerializable;
 
 #[Entity]
 #[Table(name: 'tasks')]
-class Task implements JsonSerializable
+class Task
 {
     #[Id]
     #[Column(type: 'integer')]
@@ -58,15 +58,33 @@ class Task implements JsonSerializable
         return new self($taskData);
     }
 
-    public function jsonSerialize(): array
+    public function getId(): int
     {
-        return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
-            'taskStatus' => $this->taskStatus,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
-        ];
+        return $this->id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function getTaskStatus(): TaskStatus
+    {
+        return $this->taskStatus;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }

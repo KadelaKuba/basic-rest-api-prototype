@@ -1,0 +1,250 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Task API",
+        "description": "Api endpoints for task managing",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "{hostUrl}",
+            "description": "Api host URL",
+            "variables": {
+                "hostUrl": {
+                    "default": "http://localhost:8090",
+                    "description": "Keep empty to be used for URL from where file was served"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/tasks": {
+            "get": {
+                "operationId": "3b3d157902441788383d769793c24741",
+                "responses": {
+                    "200": {
+                        "description": "HTTP 200 OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response.ArrayTaskResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "HTTP 500 Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "4524977ef235b2864c2bcd178c8bde39",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Request.Task.CreateTaskBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP 201 Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response.TaskResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP 400 Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "HTTP 500 Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks/{id}": {
+            "put": {
+                "operationId": "cca15228caae8eee997ee60571b0ba57",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of task",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Request.Task.UpdateTaskBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "HTTP 201 OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response.TaskResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "HTTP 500 Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Request.Task.CreateTaskBody": {
+                "required": [
+                    "title",
+                    "status",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "todo"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "default": "2025-01-01 12:12:12"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "default": "2025-01-01 12:12:12"
+                    }
+                },
+                "type": "object"
+            },
+            "Request.Task.UpdateTaskBody": {
+                "required": [
+                    "title",
+                    "status",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "todo"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "default": "2025-01-01 12:12:12"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "default": "2025-01-01 12:12:12"
+                    }
+                },
+                "type": "object"
+            },
+            "Response.ErrorResponse": {
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Response.TaskResponse": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Response.ArrayTaskResponse": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Response.TaskResponse"
+                }
+            }
+        }
+    }
+}
