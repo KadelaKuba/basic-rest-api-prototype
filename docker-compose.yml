@@ -1,0 +1,35 @@
+services:
+  task-api-webserver:
+    image: nginx:1.26-alpine
+    container_name: task-api-nginx
+    volumes:
+      - ./public/index.php:/var/www/html/public/index.php
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8090:8080"
+
+  task-api-php-fpm:
+    tty: true
+    build:
+      context: .
+      dockerfile: docker/php-fpm/Dockerfile
+      target: development
+    container_name: task-api-php-fpm
+    volumes:
+      - .:/var/www/html
+
+  task-api-db:
+    image: mariadb:11.4.4
+    container_name: task-api-db
+    restart: on-failure
+    volumes:
+      - type: bind
+        source: ./var/docker/db
+        target: /var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: "root"
+      MARIADB_USER: "task_api"
+      MARIADB_PASSWORD: ""
+      MARIADB_DATABASE: "task_api"

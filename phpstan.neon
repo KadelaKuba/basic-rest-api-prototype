@@ -1,0 +1,8 @@
+parameters:
+     level: 8
+     fileExtensions:
+         - php
+     paths:
+         - src
+     ignoreErrors:
+         - identifier: missingType.generics
