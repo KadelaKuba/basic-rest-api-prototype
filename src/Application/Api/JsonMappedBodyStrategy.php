@@ -37,6 +37,10 @@ class JsonMappedBodyStrategy implements InvocationStrategyInterface
         return $callable(...$actionArguments);
     }
 
+    /**
+     * @param array|string[] $inPathRouteArguments
+     * @return array<mixed>
+     */
     public function resolveActionParameters(
         ReflectionMethod $actionReflection,
         ServerRequestInterface $request,
@@ -59,7 +63,7 @@ class JsonMappedBodyStrategy implements InvocationStrategyInterface
                 continue;
             }
 
-            $actionArguments[$parameterName] = $this->resolveObjectParameter($parameterType, $request, $response, $inPathRouteArguments);
+            $actionArguments[$parameterName] = $this->resolveObjectParameter($parameterType, $request, $response);
         }
 
         return $actionArguments;
