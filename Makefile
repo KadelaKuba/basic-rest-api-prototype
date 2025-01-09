@@ -32,3 +32,6 @@ migrations-diff:
 
 migrations-migrate:
 	docker-compose exec task-api-php-fpm composer migrations-migrate
+
+generate-open-api-schema:
+	docker-compose exec task-api-php-fpm composer generate-open-api-schema
