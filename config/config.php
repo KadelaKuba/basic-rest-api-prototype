@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Application\Api\JsonMappedBodyStrategy;
+use App\Application\Api\Slim\JsonMappedBodyStrategy;
 use App\ContainerDefinitions;
 use App\Environment;
 use DI\ContainerBuilder;

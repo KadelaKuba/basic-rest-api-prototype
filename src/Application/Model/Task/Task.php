@@ -87,4 +87,12 @@ class Task
     {
         return $this->updatedAt;
     }
+
+    /**
+     * @internal for testing purposes only
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 }

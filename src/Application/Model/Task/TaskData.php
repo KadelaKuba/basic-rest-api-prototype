@@ -6,7 +6,7 @@ use DateTimeImmutable;
 
 class TaskData
 {
-    public function __construct(
+    private function __construct(
         public string $title,
         public ?string $description,
         public TaskStatus $taskStatus,

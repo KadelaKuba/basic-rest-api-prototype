@@ -24,6 +24,10 @@ standards-fix:
 phpstan:
 	docker-compose exec task-api-php-fpm composer phpstan
 
+.PHONY: tests
+tests:
+	docker-compose exec task-api-php-fpm composer tests
+
 check-all:
 	docker-compose exec task-api-php-fpm composer check-all
 
