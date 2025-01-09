@@ -28,7 +28,8 @@
     "scripts": {
         "build-dev": [
             "composer install",
-            "composer dump-autoload"
+            "composer dump-autoload",
+            "@migrations-migrate"
         ],
         "phpstan": "phpstan analyse -c phpstan.neon",
         "standards": "vendor/bin/ecs check",
