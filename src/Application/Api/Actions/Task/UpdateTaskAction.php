@@ -9,7 +9,6 @@ use App\Application\Model\Task\TaskDataFactory;
 use App\Application\Model\Task\TaskFacade;
 use App\Components\Http\HttpOptions;
 use App\Components\Responder\JsonResponder;
-use Exception;
 use OpenApi\Attributes as OA;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -78,12 +77,8 @@ class UpdateTaskAction extends AbstractAction
 
         try {
             $task = $this->taskFacade->edit($taskId, $taskData);
-        } catch (Exception $exception) {
-            if ($exception instanceof TaskNotFoundException) {
-                throw new HttpNotFoundException($request, $exception->getMessage());
-            }
-
-            throw $exception;
+        } catch (TaskNotFoundException $exception) {
+            throw new HttpNotFoundException($request, $exception->getMessage());
         }
 
         return $this->jsonResponder->respond(

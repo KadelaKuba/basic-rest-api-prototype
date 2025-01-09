@@ -6,6 +6,11 @@
             "App\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
     "require": {
         "php": "^8.4",
         "symfony/dotenv": "^7.2",
@@ -23,7 +28,8 @@
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "phpstan/phpstan": "^2.0",
-        "symplify/easy-coding-standard": "^12.3"
+        "symplify/easy-coding-standard": "^12.3",
+        "phpunit/phpunit": "^11.0"
     },
     "scripts": {
         "build-dev": [
@@ -34,6 +40,7 @@
         "phpstan": "phpstan analyse -c phpstan.neon",
         "standards": "vendor/bin/ecs check",
         "standards-fix": "vendor/bin/ecs check --fix",
+        "tests": "phpunit tests",
         "check-all": [
             "@standards",
             "@phpstan"

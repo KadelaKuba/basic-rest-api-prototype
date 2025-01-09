@@ -1,9 +1,10 @@
-# Locally used .env variables
+!.git-keep
+/.idea
+
 /.env.*local
 
 /vendor
 /var/docker
 /logs/*
 
-!.git-keep
-/.idea
+.phpunit.cache

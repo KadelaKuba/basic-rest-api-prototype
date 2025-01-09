@@ -1,40 +1,22 @@
 <?php
 
-namespace App\Application\Api;
+namespace App\Application\Api\Slim;
 
 use App\Application\Api\Exception\ValidationViolationsBadRequestException;
-use JsonException;
-use JsonMapper;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
-use Slim\Exception\HttpBadRequestException;
-use Slim\Interfaces\InvocationStrategyInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class JsonMappedBodyStrategy implements InvocationStrategyInterface
+class ActionParameterResolver
 {
     public function __construct(
         private ValidatorInterface $validator,
-        private JsonMapper $jsonMapper,
+        private JsonRequestBodyMapper $jsonRequestBodyMapper,
     ) {
-    }
-
-    public function __invoke(callable $callable, ServerRequestInterface $request, ResponseInterface $response, array $routeArguments): ResponseInterface
-    {
-        $actionReflection = new ReflectionMethod($callable[0], '__invoke');
-
-        $actionArguments = $this->resolveActionParameters(
-            $actionReflection,
-            $request,
-            $response,
-            $routeArguments
-        );
-
-        return $callable(...$actionArguments);
     }
 
     /**
@@ -87,18 +69,7 @@ class JsonMappedBodyStrategy implements InvocationStrategyInterface
         }
 
         $object = $parameterTypeReflection->newInstance();
-
-        try {
-            $decoded = json_decode($request->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $jsonException) {
-            throw new HttpBadRequestException(
-                $request,
-                'Invalid request body json syntax: ' . $jsonException->getMessage(),
-                $jsonException
-            );
-        }
-
-        $this->jsonMapper->map($decoded, $object);
+        $this->jsonRequestBodyMapper->mapFromRequestBodyWithJson($request, $object);
 
         $errors = $this->validator->validate($object);
         if ($errors->count() > 0) {
